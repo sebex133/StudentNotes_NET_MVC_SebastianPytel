@@ -1,0 +1,111 @@
+﻿@model IEnumerable<StudentNotes_MVC_SebastianPytel.Models.StudentNote>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a class="ajax-create-note" href="#">Create note</a>
+</p>
+<p>
+    <a class="ajax-index-created" href="#">Sort by created date</a>
+</p>
+<p>
+    <a class="ajax-index-modified" href="#">Sort by modified date</a>
+</p>
+
+<div>
+    <div id="popup">
+        <div class="close">X</div>
+        <div class="inside"></div>
+    </div>
+    <div id="notesAll" class="container ck-content">
+        @Html.Partial("IndexAjax")
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/jquery-ajax-unobtrusive/src/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        var actualIndexView = '/StudentNotes/IndexAjaxModified';
+
+        $(document).on('click', '#popup .close', function () {
+            $('#popup .inside').html('closed...');
+        });
+
+        $(document).on('click', '.ajax-edit', function () {
+            $('#popup .inside').html('loading...');
+
+            let id = $(this).data('id');
+
+            $('#popup .inside').load('/StudentNotes/EditAjax/' + id);
+        });
+
+        $(document).on('click', '.ajax-show', function () {
+            $('#popup .inside').html('loading...');
+
+            let id = $(this).data('id');
+
+            $('#popup .inside').load('/StudentNotes/DetailsAjax/' + id);
+        });
+
+        $(document).on('click', '.ajax-index-created', function () {
+            actualIndexView = '/StudentNotes/IndexAjaxCreated';
+            $('#notesAll').html('refreshing...')
+            $('#notesAll').load(actualIndexView);
+        });
+
+        $(document).on('click', '.ajax-index-modified', function () {
+            actualIndexView = '/StudentNotes/IndexAjaxModified';
+            $('#notesAll').html('refreshing...')
+            $('#notesAll').load(actualIndexView);
+        });
+
+        $(document).on('click', '.ajax-create-note', function () {
+            $('#popup .inside').html('loading...');
+            $('#popup .inside').load('/StudentNotes/CreateAjax');
+        });
+        
+        editingClose = function (xhr) {
+            let noteId = xhr.responseJSON.noteId;
+            $('#popup .inside').html('saved note ' + noteId + ' ...');
+            $('#notesAll').html('refreshing...')
+            $('#notesAll').load(actualIndexView);
+        }
+
+        editingProcess = function (xhr) {
+            $('#popup .inside').prepend('saving note ...');
+            $('.submit-ajax-button').attr('disabled', 'disabled');
+        }
+
+        deletedClose = function (xhr) {
+            let noteId = xhr.responseJSON.noteId;
+            $('#popup .inside').html('deleted note ' + noteId + ' ...');
+            $('#notesAll').html('refreshing...')
+            $('#notesAll').load(actualIndexView);
+        }
+
+        deletingProcess = function (xhr) {
+            $('#popup .inside').prepend('deleting note ...');
+            $('.submit-ajax-button').attr('disabled', 'disabled');
+        }
+
+        creatingClose = function (xhr) {
+            let noteId = xhr.responseJSON.noteId;
+            $('#popup .inside').html('created note ' + noteId + ' ...');
+            $('#notesAll').html('refreshing...')
+            $('#notesAll').load(actualIndexView);
+        }
+
+        creatingProcess = function (xhr) {
+            $('#popup .inside').prepend('creating note ...');
+            $('.submit-ajax-button').attr('disabled', 'disabled');
+        }
+    </script>
+
+    <script src="~/js/ckeditor5/build/ckeditor.js"></script>
+}
+
+

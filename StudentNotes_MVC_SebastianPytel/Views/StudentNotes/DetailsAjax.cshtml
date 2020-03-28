@@ -1,0 +1,21 @@
+﻿@model StudentNotes_MVC_SebastianPytel.Models.StudentNote
+
+<div>
+    <div class="container ck-content">
+        <div class="row">
+            <div class="col-md-12">
+                <p> @Html.Raw(Model.NoteLabel)</p>
+                @Html.Raw(Model.Note)
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a class="ajax-edit" href="#" data-id="@Model.Id">Edit ajax</a>
+
+        <form asp-action="Delete" data-ajax="true" data-ajax-method="post" data-ajax-complete="deletedClose" data-ajax-begin="deletingProcess">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-default submit-ajax-button" />
+        </form>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<StudentNotes_MVC_SebastianPytel.Models.StudentNote>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.Raw(item.NoteLabel)
+                        </td>
+                        <td>
+                            @Html.Raw(item.Note)
+                        </td>
+                        <td>
+                            <a class="ajax-show" href="#" data-id="@item.Id">Show ajax</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
