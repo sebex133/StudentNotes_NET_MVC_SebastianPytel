@@ -1,14 +1,19 @@
 @using Microsoft.AspNetCore.Identity
+@using StudentNotes_MVC_SebastianPytel.Areas.Identity.Data
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<StudentNotesUser> SignInManager
+@inject UserManager<StudentNotesUser> UserManager
 
-@if (SignInManager.IsSignedIn(User))
-{
+
+@if (SignInManager.IsSignedIn(User)) {
+    var user = await UserManager.GetUserAsync(User);
+    string name = "";
+    name = user.Name;
+
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "StudentNotes", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @name aka @UserManager.GetUserName(User)!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>

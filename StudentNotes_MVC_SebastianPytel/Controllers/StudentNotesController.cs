@@ -16,11 +16,11 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
     [Authorize]
     public class StudentNotesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly StudentNotesContext _context;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         
-        public StudentNotesController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        public StudentNotesController(StudentNotesContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
