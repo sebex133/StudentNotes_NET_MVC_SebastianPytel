@@ -60,6 +60,7 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 return NotFound();
             }
 
+            //check if note belongs to user
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (studentNote.UserId != userId)
             {
@@ -124,15 +125,16 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id, NoteLabel, Note")] StudentNote studentNote)
         public async Task<IActionResult> Edit(int id, [Bind("Id, NoteLabel, Note")] StudentNote studentNote)
         {
-            if (id != studentNote.Id)
-            {
-                return NotFound();
-            }
+            //if (id != studentNote.Id)
+            //{
+            //    return NotFound();
+            //}
 
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var noteFromDb = _context.StudentNote.Where(a => a.Id == id).AsNoTracking().Single();
+            var noteFromDb = _context.StudentNote.Where(a => a.Id == studentNote.Id).AsNoTracking().Single();
 
             if (noteFromDb.UserId != userId)
             {
@@ -154,19 +156,13 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentNoteExists(studentNote.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return Json(new { noteId = studentNote.Id, success = false });
                 }
-                return Json(new { noteId = id });
+                return Json(new { noteId = id, success = true });
                 //return RedirectToAction(nameof(Index));
             }
-            return View(studentNote);
+            return Json(new { noteId = studentNote.Id, success = false });
+            //return View(studentNote);
         }
         
         // POST: StudentNotes/Delete/5
@@ -186,11 +182,6 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
             await _context.SaveChangesAsync();
             return Json(new { noteId = id });
             //return RedirectToAction(nameof(Index));
-        }
-
-        private bool StudentNoteExists(int id)
-        {
-            return _context.StudentNote.Any(e => e.Id == id);
         }
     }
 }
