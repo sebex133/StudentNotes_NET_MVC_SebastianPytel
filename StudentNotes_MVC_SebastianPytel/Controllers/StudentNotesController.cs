@@ -105,19 +105,26 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 return NotFound();
             }
 
-            var studentNote = await _context.StudentNote.FindAsync(id);
+            //var studentNote = await _context.StudentNote.FindAsync(id);
+            //if (studentNote == null)
+            //{
+            //    return NotFound();
+            //}
+            var studentNote = await _context.StudentNote
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (studentNote == null)
             {
                 return NotFound();
             }
 
+            //check if note belongs to user
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (studentNote.UserId != userId)
             {
                 return NotFound();
             }
 
-            return View(studentNote);
+            return PartialView(studentNote);
         }
 
         // POST: StudentNotes/Edit/5
