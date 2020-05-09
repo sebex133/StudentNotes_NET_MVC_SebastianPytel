@@ -1,38 +1,66 @@
 ﻿@model IEnumerable<StudentNotes_MVC_SebastianPytel.Models.StudentNote>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Your notes";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-12 p-4">
+            <div class="">
+                <a class="ajax-create-note" data-toggle="modal" data-target="#exampleModalCenter" href="#">
+                    <i class="far fa-sticky-note fa-5x text-warning"></i>
+                    <span>
+                        Create new note
+                    </span>
+                </a>
+            </div>
+            
+            <div class="">
+                <p>
+                    <a class="ajax-index-created" href="#">Sort by created date</a>
+                </p>
+                <p>
+                    <a class="ajax-index-modified" href="#">Sort by modified date</a>
+                </p>
+            </div>
 
-<p>
-    <a class="ajax-create-note" href="#">Create note</a>
-</p>
-<p>
-    <a class="ajax-index-created" href="#">Sort by created date</a>
-</p>
-<p>
-    <a class="ajax-index-modified" href="#">Sort by modified date</a>
-</p>
+            <div id="notesAll">
+                @Html.Partial("IndexAjax")
+            </div>
 
-<div>
-    <div id="popup">
-        <div class="close">X</div>
-        <div class="inside"></div>
-    </div>
-    <div id="notesAll" class="container ck-content">
-        @Html.Partial("IndexAjax")
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content" id="popup">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Loading note...</h5>
+                            <button type="button" class="close clear-modal-data" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body inside">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary clear-modal-data" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 @section scripts{
     <script src="~/js/jquery-ajax-unobtrusive/src/jquery.unobtrusive-ajax.js"></script>
     <script>
+        //modal
         var actualIndexView = '/StudentNotes/IndexAjaxModified';
 
-        $(document).on('click', '#popup .close', function () {
+        $(document).on('click', '#popup .clear-modal-data', function () {
             $('#popup .inside').html('closed...');
+            $('#popup .modal-title').html('Loading note...');
         });
 
         $(document).on('click', '.ajax-edit', function () {
@@ -45,6 +73,11 @@
 
         $(document).on('click', '.ajax-show', function () {
             $('#popup .inside').html('loading for show...');
+
+            let noteName = '';
+            noteName = $(this).children('.note-title').html();
+
+            $('#popup .modal-title').html(noteName);
 
             let id = $(this).data('id');
 
@@ -67,7 +100,8 @@
             $('#popup .inside').html('loading...');
             $('#popup .inside').load('/StudentNotes/CreateAjax');
         });
-        
+
+        //dynamic forms
         editingClose = function (xhr) {
             let noteId = xhr.responseJSON.noteId;
             $('#popup .inside').html('saved note ' + noteId + ' ...');

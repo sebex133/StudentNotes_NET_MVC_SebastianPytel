@@ -1,26 +1,17 @@
 ﻿@model IEnumerable<StudentNotes_MVC_SebastianPytel.Models.StudentNote>
 
-<div class="row">
-    <div class="col-md-12">
-        <table class="table">
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.Raw(item.NoteLabel)
-                        </td>
-                        <td>
-                            @Html.Raw(item.Note)
-                        </td>
-                        <td>
-                            <a class="ajax-show" href="#" data-id="@item.Id">Show ajax</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+<div class="row text-center">
+    @foreach (var item in Model)
+    {
+        <div class="col-6 col-md-4 col-lg-3">
+            <a class="ajax-show" data-toggle="modal" data-target="#exampleModalCenter" href="#" data-id="@item.Id">
+                <i class="fas fa-sticky-note fa-5x text-warning"></i>
+                <p class="note-title text-info font-weight-bold">
+                    @Html.Raw(item.NoteLabel)
+                </p>
+            </a>
+        </div>
+    }
 </div>
 
 
