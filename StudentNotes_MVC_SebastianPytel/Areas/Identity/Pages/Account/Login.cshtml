@@ -5,14 +5,15 @@
     ViewData["Title"] = "Sign in";
 }
 
-@*<div class="d-flex align-items-center justify-content-center">*@
-<div class="d-flex vh-100 align-items-center justify-content-center">
+<div class="d-md-flex min-vh-100 align-items-center justify-content-center p-3">
     <div class="text-center">
-        <h2><strong>@ViewData["Title"]</strong></h2>
+        <div class="py-4">
+            <i class="fas fa-user fa-4x"></i>
+        </div>
+        <h2><span class="font-weight-bold">@ViewData["Title"]</span></h2>
         <hr />
         <section>
             <form method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <input asp-for="Input.Email" class="form-control" placeholder="@Html.DisplayNameFor(m => m.Input.Email)" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -30,12 +31,12 @@
                     <button type="submit" class="btn btn-success">Sign in</button>
                 </div>
                 <br />
-                <div class="form-group">
-                    <p>
-                        Doesn't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class=""><strong>Sign up</strong></a>
-                    </p>
-                </div>
             </form>
+            <div class="form-group">
+                <p>
+                    Doesn't have an account? <a asp-page="./Register" class=""><span class="font-weight-bold">Sign up</span></a>
+                </p>
+            </div>
         </section>
     </div>
 </div>
