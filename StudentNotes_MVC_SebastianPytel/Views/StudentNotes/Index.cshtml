@@ -4,30 +4,60 @@
     ViewData["Title"] = "Your notes";
 }
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-book-reader"></i>
+            <span class="navbar-brand mb-0 px-1 h1">StudentNotes 1.0</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <partial name="_LoginPartial" />
+        </div>
+    </div>
+</nav>
+
 <div class="container">
     <div class="row">
         <div class="col-12 p-4">
-            <div class="">
-                <a class="ajax-create-note" data-toggle="modal" data-target="#exampleModalCenter" href="#">
-                    <i class="far fa-sticky-note fa-5x text-warning"></i>
-                    <span>
-                        Create new note
-                    </span>
-                </a>
-            </div>
-            
-            <div class="">
-                <p>
-                    <a class="ajax-index-created" href="#">Sort by created date</a>
-                </p>
-                <p>
-                    <a class="ajax-index-modified" href="#">Sort by modified date</a>
-                </p>
+            <div class="row text-center p-3">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <a class="d-flex align-items-center justify-content-center text-decoration-none ajax-create-note" data-toggle="modal" data-target="#exampleModalCenter" href="#">
+                        <i class="far fa-sticky-note fa-3x text-warning pr-3"></i>
+                        <span class="text-success font-weight-bold">
+                            Create new note
+                        </span>
+                        <i class="fas fa-plus-square fa-1x text-success pl-2"></i>
+                    </a>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                </div>
             </div>
 
-            <div id="notesAll">
-                @Html.Partial("IndexAjax")
+            <div class="row text-center p-3">
+                <div class="col-6 col-md-4 col-lg-3">
+                    <button class="btn btn-sm btn btn-outline-primary px-3 ajax-index-created" href="#">Sort by created date</button>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <button class="btn btn-sm btn btn-outline-primary px-3 ajax-index-modified" href="#">Sort by modified date</button>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                </div>
             </div>
+
+            <div class="row text-center p-3">
+                <div class="col-12 p-3">
+                    <div class="" id="notesAll">
+                        @Html.Partial("IndexAjax")
+                    </div>
+                </div>
+            </div>
+
+
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -41,10 +71,10 @@
                         </div>
                         <div class="modal-body inside">
                         </div>
-                        <div class="modal-footer">
+                        @*<div class="modal-footer">
                             <button type="button" class="btn btn-secondary clear-modal-data" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-success">Save changes</button>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
@@ -97,6 +127,7 @@
         });
 
         $(document).on('click', '.ajax-create-note', function () {
+            $('#popup .modal-title').html('Create new note');
             $('#popup .inside').html('loading...');
             $('#popup .inside').load('/StudentNotes/CreateAjax');
         });

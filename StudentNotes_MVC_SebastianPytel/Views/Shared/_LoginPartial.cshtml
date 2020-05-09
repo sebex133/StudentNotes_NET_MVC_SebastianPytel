@@ -10,10 +10,12 @@
     string name = "";
     name = user.Name;
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
-            <a class="nav-link" asp-controller="StudentNotes" asp-action="Index" title="Manage">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" asp-controller="StudentNotes" asp-action="Index" title="Manage">Your notes</a>
         </li>
+    </ul>    
+    <ul class="navbar-nav my-2 my-lg-0">
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @name aka @UserManager.GetUserName(User)!</a>
         </li>
@@ -26,8 +28,8 @@
 }
 else
 {
-    <ul class="navbar-nav navbar-right">
-        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item mx-2"><a class="nav-link text-dark p-2" asp-area="Identity" asp-page="/Account/Login">Sign in</a></li>
+        <li class="nav-item mx-2"><a class="nav-link btn btn-outline-dark p-2" asp-area="Identity" asp-page="/Account/Register">Sign up</a></li>
     </ul>
 }

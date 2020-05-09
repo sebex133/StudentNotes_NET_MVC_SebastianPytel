@@ -5,12 +5,14 @@
         @Html.Raw(Model.Note)
     </div>
 
-    <div class="note-operations">
-        <a class="ajax-edit" href="#" data-id="@Model.Id">Edit ajax</a>
+    <div class="row">
+        <div class="col-12 d-flex align-items-center justify-content-end">
+            <a class="btn btn-primary m-1 ajax-edit" href="#" data-id="@Model.Id">Edit note</a>
 
-        <form asp-action="Delete" data-ajax="true" data-ajax-method="post" data-ajax-complete="deletedClose" data-ajax-begin="deletingProcess">
-            <input type="hidden" asp-for="Id" />
-            <input type="submit" value="Delete" class="btn btn-default submit-ajax-button" />
-        </form>
+            <form asp-action="Delete" class="m-1" data-ajax="true" data-ajax-method="post" data-ajax-complete="deletedClose" data-ajax-begin="deletingProcess">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Delete" class="btn btn-danger submit-ajax-button" />
+            </form>
+        </div>
     </div>
 </div>
