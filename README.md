@@ -1,6 +1,6 @@
 # StudentNotes_NET_MVC_SebastianPytel
 
-https://travis-ci.com/sebex133/StudentNotes_NET_MVC_SebastianPytel.svg?token=9sCnpmHpj5aw8mg9Q6Kx&branch=master
+[![Build Status](https://travis-ci.com/sebex133/StudentNotes_NET_MVC_SebastianPytel.svg?token=9sCnpmHpj5aw8mg9Q6Kx&branch=master)](https://travis-ci.com/sebex133/StudentNotes_NET_MVC_SebastianPytel)
 
 StudentNotes app is your personal note board
 
