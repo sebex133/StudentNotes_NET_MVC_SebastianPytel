@@ -15,22 +15,9 @@ before_script:
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/id_rsa
 - ssh-add /tmp/id_rsa
+- ssh $deploy_server_user@$deploy_server_ip
 
 script:
-  - provider: script
-    skip_cleanup: true
-    script: ssh $deploy_server_user@$deploy_server_ip
-    on:
-      branch: master
-  - provider: script
-    skip_cleanup: true
-    script: mkdir /var/www/student-notes/testtyy
-    on:
-      branch: master
-  - provider: script
-    skip_cleanup: true
-    script: 
-    - git status
-    - git status
-    on:
-      branch: master
+- mkdir /var/www/student-notes/testtyy
+- git status
+- git status
