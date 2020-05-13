@@ -13,3 +13,7 @@ before_script:
 script:
  - dotnet build
  - dotnet test
+
+ after_success:
+  - ssh student-admin@104.248.19.206
+  - mkdir /var/www/student-notes/testtyy
