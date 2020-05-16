@@ -24,6 +24,6 @@ script:
 - ssh-add ./deploy_key
 - ssh -i ./deploy_key $deploy_server_user@$deploy_server_ip /home/student-admin/build_student_notes_app.sh
 - mkdir $TRAVIS_BUILD_DIR/new_json_settings
-- openssl aes-256-cbc -K $encrypted_bc678f3600cd_key -iv $encrypted_bc678f3600cd_iv -in appsettings.json.enc -out $TRAVIS_BUILD_DIR/new_json_settings/appsettings.json -d
+- openssl aes-256-cbc -K $encrypted_bc678f3600cd_key -iv $encrypted_bc678f3600cd_iv -in appsettings_server.json.enc -out $TRAVIS_BUILD_DIR/new_json_settings/appsettings.json -d
 - scp -i ./deploy_key $TRAVIS_BUILD_DIR/new_json_settings/appsettings.json $deploy_server_user@$deploy_server_ip:/var/www/student-notes/StudentNotes_MVC_SebastianPytel/appsettings.json
 - echo "END of Travis CI building server app"
