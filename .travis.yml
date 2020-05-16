@@ -22,8 +22,11 @@ script:
 - chmod 600 $TRAVIS_BUILD_DIR/keye/deploy_key
 - echo -e "Host $deploy_server_ip\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add $TRAVIS_BUILD_DIR/keye/deploy_key
-- rsync -r --quiet $TRAVIS_BUILD_DIR/keye $deploy_server_user@$deploy_server_ip:/home/student-admin/wymiana
-- touch /home/student-admin/wymiana/test_touch.txt | ssh -i /tmp/id_rsa $deploy_server_user@$deploy_server_ip pwd
+- mkdir $TRAVIS_BUILD_DIR/test_folder
+- touch $TRAVIS_BUILD_DIR/test_folder/testfile.txt
+- rsync -r --quiet $TRAVIS_BUILD_DIR/test_folder $deploy_server_user@$deploy_server_ip:/home/student-admin/wymiana
+- touch /home/student-admin/wymiana/test_touch.txt | ssh -i $TRAVIS_BUILD_DIR/keye/deploy_key $deploy_server_user@$deploy_server_ip pwd
+- touch /home/student-admin/wymiana/test_touch22.txt
 - cd /var/www/student-notes
 - git remote -v
 - echo "git fetch > /dev/null 2>&1"
