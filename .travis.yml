@@ -23,9 +23,8 @@ script:
 - echo -e "Host $deploy_server_ip\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add $TRAVIS_BUILD_DIR/keye/deploy_key
 - rsync -r --quiet $TRAVIS_BUILD_DIR/keye $deploy_server_user@$deploy_server_ip:/home/student-admin/wymiana
-- mkdir /home/student-admin/test11 | ssh -i /tmp/id_rsa $deploy_server_user@$deploy_server_ip pwd
-- ssh -i /tmp/id_rsa $deploy_server_user@$deploy_server_ip pwd < mkdir /home/student-admin/test22
-- mkdir /var/www/student-notes/testtyy
-- git status
+- touch /home/student-admin/wymiana/test_touch.txt | ssh -i /tmp/id_rsa $deploy_server_user@$deploy_server_ip pwd
+- cd /var/www/student-notes
+- git remote -v
 - echo "git fetch > /dev/null 2>&1"
 - echo "git pull"
