@@ -28,8 +28,10 @@
 }
 else
 {
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item mx-2"><a class="nav-link text-dark p-2" asp-area="Identity" asp-page="/Account/Login">Sign in</a></li>
-        <li class="nav-item mx-2"><a class="nav-link btn btn-outline-dark p-2" asp-area="Identity" asp-page="/Account/Register">Sign up</a></li>
+    <ul class="navbar-nav ml-auto flex-row justify-content-center justify-content-sm-end">
+        @*<li class="nav-item mx-1 my-1 my-sm-0"><a class="btn btn-light" asp-area="Identity" asp-page="/Account/Login">Sign in</a></li>
+        <li class="nav-item mx-1 my-1 my-sm-0"><a class="btn btn-outline-secondary" asp-area="Identity" asp-page="/Account/Register">Sign up</a></li>*@
+        <li class="nav-item mx-1 my-1 my-sm-0"><a class="btn btn-dark" asp-area="Identity" asp-page="/Account/Login">Sign in</a></li>
+        <li class="nav-item mx-1 my-1 my-sm-0"><a class="btn btn-outline-light" asp-area="Identity" asp-page="/Account/Register">Sign up</a></li>
     </ul>
 }
