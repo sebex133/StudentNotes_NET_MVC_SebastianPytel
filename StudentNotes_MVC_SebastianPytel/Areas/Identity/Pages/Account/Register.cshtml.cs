@@ -66,9 +66,18 @@ namespace StudentNotes_MVC_SebastianPytel.Areas.Identity.Pages.Account
             public string Surname { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
+
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "StudentNotes");
+                //return RedirectToPage("./StudentNotes");
+            }
+
             ReturnUrl = returnUrl;
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

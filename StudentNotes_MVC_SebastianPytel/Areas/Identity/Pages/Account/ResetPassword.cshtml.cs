@@ -42,9 +42,15 @@ namespace StudentNotes_MVC_SebastianPytel.Areas.Identity.Pages.Account
 
             public string Code { get; set; }
         }
-
+        
         public IActionResult OnGet(string code = null)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "StudentNotes");
+                //return RedirectToPage("./StudentNotes");
+            }
+
             if (code == null)
             {
                 return BadRequest("A code must be supplied for password reset.");
