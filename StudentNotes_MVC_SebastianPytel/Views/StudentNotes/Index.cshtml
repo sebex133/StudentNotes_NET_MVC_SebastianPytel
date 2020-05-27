@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col-12 p-4">
             <div class="row text-center p-3">
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-5">
                     <a class="d-flex align-items-center justify-content-center text-decoration-none ajax-create-note" data-toggle="modal" data-target="#exampleModalCenter" href="#">
                         <i class="far fa-sticky-note fa-3x text-warning pr-3"></i>
                         <span class="text-success font-weight-bold">
@@ -41,26 +41,17 @@
                         <i class="fas fa-plus-square fa-1x text-success pl-2"></i>
                     </a>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <button class="btn btn-sm btn btn-primary px-3 ajax-index-created" href="#">Sort by created date</button>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <button class="btn btn-sm btn btn-primary px-3 ajax-index-modified" href="#">Sort by modified date</button>
+                <div class="col-12 col-md-7 pt-4 pt-md-0">
+                    <div class="d-flex h-100 align-items-center justify-content-center justify-content-md-end">
+                        <div class="px-2">
+                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-created" href="#">Sort by created date</button>
+                        </div>
+                        <div class="px-2">
+                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-modified" href="#">Sort by modified date</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            @*<div class="row text-center p-3">
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <button class="btn btn-sm btn btn-primary px-3 ajax-index-created" href="#">Sort by created date</button>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <button class="btn btn-sm btn btn-primary px-3 ajax-index-modified" href="#">Sort by modified date</button>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-3">
-                    </div>
-                </div>*@
 
             <div class="row text-center p-3">
                 <div class="col-12 p-3">
@@ -69,8 +60,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -84,10 +73,6 @@
                         </div>
                         <div class="modal-body inside">
                         </div>
-                        @*<div class="modal-footer">
-                                <button type="button" class="btn btn-secondary clear-modal-data" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success">Save changes</button>
-                            </div>*@
                     </div>
                 </div>
             </div>
