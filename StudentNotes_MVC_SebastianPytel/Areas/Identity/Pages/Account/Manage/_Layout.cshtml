@@ -8,14 +8,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 p-4">
-            <h2>Manage your account</h2>
-
+            <h5>Manage your account</h5>
+            <hr />
             <partial name="_ManageNav" />
         </div>
         <div class="col-md-9 p-4">
             @RenderBody()
         </div>
     </div>
+
+    @*<div class="row">
+        <div class="col-12">
+            <partial name="_ManageNav" />
+
+            @RenderBody()
+        </div>
+    </div>*@
 </div>
 
 @section Scripts {

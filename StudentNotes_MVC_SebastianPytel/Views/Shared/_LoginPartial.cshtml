@@ -10,18 +10,32 @@
     string name = "";
     name = user.Name;
 
+    string title = "";
+
+    if (name != "")
+    {
+        title = name + "'s notes";
+    }
+    else
+    {
+        title = "Your notes";
+    }
+    
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
-            <a class="nav-link" asp-controller="StudentNotes" asp-action="Index" title="Manage">Your notes</a>
+            @*<a class="btn btn-info @Html.(actions: "Index", controllers: "StudentNotes")" asp-controller="StudentNotes" asp-action="Index" title="Manage">@name's notes</a>*@
+            @*<a class="btn btn-info @(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")" asp-controller="StudentNotes" asp-action="Index" title="Your notes">@name's notes</a>*@
+            <a class="btn btn-info" asp-controller="StudentNotes" asp-action="Index" title="Your notes">@title</a>
         </li>
     </ul>    
     <ul class="navbar-nav my-2 my-lg-0">
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @name aka @UserManager.GetUserName(User)!</a>
+            @*<a class="btn btn-info" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @name aka @UserManager.GetUserName(User)!</a>*@
+            <a class="btn btn-info" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
         </li>
         <li class="nav-item">
             <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "StudentNotes", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
-                <button type="submit" class="btn btn-link navbar-btn nav-link">Logout</button>
+                <button type="submit" class="btn btn-info">Logout</button>
             </form>
         </li>
     </ul>

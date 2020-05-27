@@ -112,7 +112,7 @@ namespace StudentNotes_MVC_SebastianPytel.Areas.Identity.Pages.Account
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError("RegisterError", error.Description);
                 }
             }
 

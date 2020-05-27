@@ -15,6 +15,11 @@
             <h2><span class="font-weight-bold">@ViewData["Title"]</span></h2>
             <hr />
             <section>
+                <p class="text-danger">
+                    @{
+                        @Html.ValidationMessage("LoginError")
+                    }
+                </p>
                 <form method="post">
                     <div class="form-group">
                         <input asp-for="Input.Email" class="form-control" placeholder="@Html.DisplayNameFor(m => m.Input.Email)" />

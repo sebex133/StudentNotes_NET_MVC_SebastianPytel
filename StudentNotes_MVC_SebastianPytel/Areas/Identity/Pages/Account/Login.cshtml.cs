@@ -54,7 +54,6 @@ namespace StudentNotes_MVC_SebastianPytel.Areas.Identity.Pages.Account
             if(User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "StudentNotes");
-                //return RedirectToPage("./StudentNotes");
             }
 
             if (!string.IsNullOrEmpty(ErrorMessage))
@@ -99,7 +98,8 @@ namespace StudentNotes_MVC_SebastianPytel.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError("LoginError", "Invalid login attempt.");
                     return Page();
                 }
             }

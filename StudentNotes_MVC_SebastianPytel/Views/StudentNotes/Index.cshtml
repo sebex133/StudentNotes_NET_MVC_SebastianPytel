@@ -1,7 +1,29 @@
 ﻿@model IEnumerable<StudentNotes_MVC_SebastianPytel.Models.StudentNote>
 
-@{
-    ViewData["Title"] = "Your notes";
+@using Microsoft.AspNetCore.Identity
+@using StudentNotes_MVC_SebastianPytel.Areas.Identity.Data
+
+@inject SignInManager<StudentNotesUser> SignInManager
+@inject UserManager<StudentNotesUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    string name = "";
+    name = user.Name;
+
+    string title = "";
+
+    if (name != "")
+    {
+        title = name + "'s notes";
+    }
+    else
+    {
+        title = "Your notes";
+    }
+    
+    ViewData["Title"] = title;
 }
 
 <partial name="_NavbarLogged" />
@@ -30,15 +52,15 @@
             </div>
 
             @*<div class="row text-center p-3">
-                <div class="col-6 col-md-4 col-lg-3">
-                    <button class="btn btn-sm btn btn-primary px-3 ajax-index-created" href="#">Sort by created date</button>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3">
-                    <button class="btn btn-sm btn btn-primary px-3 ajax-index-modified" href="#">Sort by modified date</button>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3">
-                </div>
-            </div>*@
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <button class="btn btn-sm btn btn-primary px-3 ajax-index-created" href="#">Sort by created date</button>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <button class="btn btn-sm btn btn-primary px-3 ajax-index-modified" href="#">Sort by modified date</button>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                    </div>
+                </div>*@
 
             <div class="row text-center p-3">
                 <div class="col-12 p-3">
@@ -63,9 +85,9 @@
                         <div class="modal-body inside">
                         </div>
                         @*<div class="modal-footer">
-                            <button type="button" class="btn btn-secondary clear-modal-data" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success">Save changes</button>
-                        </div>*@
+                                <button type="button" class="btn btn-secondary clear-modal-data" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success">Save changes</button>
+                            </div>*@
                     </div>
                 </div>
             </div>
