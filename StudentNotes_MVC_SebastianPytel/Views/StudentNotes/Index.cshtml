@@ -33,7 +33,7 @@
         <div class="col-12 p-4">
             <div class="row text-center p-3">
                 <div class="col-12 col-md-5">
-                    <a class="d-flex align-items-center justify-content-center text-decoration-none ajax-create-note" data-toggle="modal" data-target="#exampleModalCenter" href="#">
+                    <a class="d-flex align-items-center justify-content-center text-decoration-none" data-toggle="modal" data-target="#studentNotesModal" data-modal-title="Create note" data-modal-url="/StudentNotes/CreateAjax" href="#">
                         <i class="far fa-sticky-note fa-3x text-warning pr-3"></i>
                         <span class="text-success font-weight-bold">
                             Create new note
@@ -44,10 +44,10 @@
                 <div class="col-12 col-md-7 pt-4 pt-md-0">
                     <div class="d-flex h-100 align-items-center justify-content-center justify-content-md-end">
                         <div class="px-2">
-                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-created" href="#">Sort by created date</button>
+                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxCreated" href="#">Sort by created date</button>
                         </div>
                         <div class="px-2">
-                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-modified" href="#">Sort by modified date</button>
+                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxModified" href="#">Sort by modified date</button>
                         </div>
                     </div>
                 </div>
@@ -55,23 +55,35 @@
 
             <div class="row text-center p-3">
                 <div class="col-12 p-3">
-                    <div class="" id="notesAll">
+                    <div class="d-none pb-3" id="notesAllLoader">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div id="notesAll">
                         @Html.Partial("IndexAjax")
                     </div>
                 </div>
             </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <!-- Modal create-->
+            <div class="modal fade" id="studentNotesModal" tabindex="-1" role="dialog" aria-labelledby="studentNotesModalTitle" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content" id="popup">
+                    <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Loading note...</h5>
+                            <h5 class="modal-title"></h5>
                             <button type="button" class="close clear-modal-data" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body inside">
+                        <div class="modal-body">
+                            <div class="d-none modal-loader pb-3">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="inside">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,87 +95,126 @@
 @section scripts{
     <script src="~/js/jquery-ajax-unobtrusive/src/jquery.unobtrusive-ajax.js"></script>
     <script>
-        //modal
+        //refresh notes listing
         var actualIndexView = '/StudentNotes/IndexAjaxModified';
 
-        $(document).on('click', '#popup .clear-modal-data', function () {
-            $('#popup .inside').html('closed...');
-            $('#popup .modal-title').html('Loading note...');
+        function refreshNotesView() {
+            //$('#notesAll').html('');
+            $('#notesAllLoader').removeClass('d-none');
+            setTimeout(function () {
+                $('#notesAll').load(actualIndexView, function () {
+                    $('#notesAllLoader').addClass('d-none');
+                });
+            }, 1000)
+        }
+
+        $(document).on('click', '.ajax-index-sort', function () {
+            actualIndexView = $(this).data('sort-url');
+
+            refreshNotesView();
+        });
+
+        //Hide show
+        $('#studentNotesModal').on('hidden.bs.modal', function (e) {
+            $('#studentNotesModal .modal-title').html('');
+            $('#studentNotesModal .inside').html('');
+            $('#studentNotesModal .modal-loader').addClass('d-none');
+        });
+
+        //Modal show
+        $('#studentNotesModal').on('show.bs.modal', function (e) {
+            const loadUrl = $(e.relatedTarget).data('modal-url');
+            const title = $(e.relatedTarget).data('modal-title');
+
+            $('#studentNotesModal .modal-title').html(title);
+            $('#studentNotesModal .inside').html('');
+            $('#studentNotesModal .modal-loader').removeClass('d-none');
+            
+            setTimeout(function () {
+                $('#studentNotesModal .inside').load(loadUrl, function () {
+                    $('#studentNotesModal .modal-loader').addClass('d-none');
+                });
+            }, 1000);
         });
 
         $(document).on('click', '.ajax-edit', function () {
-            $('#popup .inside').html('loading for edit...');
+            const noteId = $(this).data('id');
 
-            let id = $(this).data('id');
+            $('#studentNotesModal .inside').html('');
+            $('#studentNotesModal .modal-loader').removeClass('d-none');
 
-            $('#popup .inside').load('/StudentNotes/EditAjax/' + id);
-        });
-
-        $(document).on('click', '.ajax-show', function () {
-            $('#popup .inside').html('loading for show...');
-
-            let noteName = '';
-            noteName = $(this).children('.note-title').html();
-
-            $('#popup .modal-title').html(noteName);
-
-            let id = $(this).data('id');
-
-            $('#popup .inside').load('/StudentNotes/DetailsAjax/' + id);
-        });
-
-        $(document).on('click', '.ajax-index-created', function () {
-            actualIndexView = '/StudentNotes/IndexAjaxCreated';
-            $('#notesAll').html('refreshing...')
-            $('#notesAll').load(actualIndexView);
-        });
-
-        $(document).on('click', '.ajax-index-modified', function () {
-            actualIndexView = '/StudentNotes/IndexAjaxModified';
-            $('#notesAll').html('refreshing...')
-            $('#notesAll').load(actualIndexView);
-        });
-
-        $(document).on('click', '.ajax-create-note', function () {
-            $('#popup .modal-title').html('Create new note');
-            $('#popup .inside').html('loading...');
-            $('#popup .inside').load('/StudentNotes/CreateAjax');
+            setTimeout(function () {
+                $('#studentNotesModal .inside').load('/StudentNotes/EditAjax/' + noteId, function () {
+                    $('#studentNotesModal .modal-loader').addClass('d-none');
+                });
+            }, 1000);
         });
 
         //dynamic forms
         editingClose = function (xhr) {
             let noteId = xhr.responseJSON.noteId;
-            $('#popup .inside').html('saved note ' + noteId + ' ...');
-            $('#notesAll').html('refreshing...')
-            $('#notesAll').load(actualIndexView);
+            let noteLabel = xhr.responseJSON.noteLabel;
+
+            setTimeout(function () {
+                $('#studentNotesModal .modal-title').html(noteLabel);
+                $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel + ' reloading note');
+                refreshNotesView();
+            }, 500);
+
+            setTimeout(function () {
+                $('#studentNotesModal .inside').load('/StudentNotes/DetailsAjax/' + noteId, function () {
+                    $('#studentNotesModal .modal-loader').addClass('d-none');
+                });
+
+                $('#studentNotesModal .modal-loader').addClass('d-none');
+            }, 1500);
         }
 
         editingProcess = function (xhr) {
-            $('#popup .inside').prepend('saving note ...');
+            $('#studentNotesModal .inside').html('Saving note...');
+            $('#studentNotesModal .modal-loader').removeClass('d-none');
             $('.submit-ajax-button').attr('disabled', 'disabled');
         }
 
         deletedClose = function (xhr) {
             let noteId = xhr.responseJSON.noteId;
-            $('#popup .inside').html('deleted note ' + noteId + ' ...');
-            $('#notesAll').html('refreshing...')
-            $('#notesAll').load(actualIndexView);
+            let noteLabel = xhr.responseJSON.noteLabel;
+
+            setTimeout(function () {
+                $('#studentNotesModal .inside').html('Deleted successfully note ' + noteLabel);
+            }, 500);
+
+            setTimeout(function () {
+                $('#studentNotesModal .modal-loader').addClass('d-none');
+                $('#studentNotesModal').modal('hide');
+                refreshNotesView();
+            }, 1500);
         }
 
         deletingProcess = function (xhr) {
-            $('#popup .inside').prepend('deleting note ...');
+            $('#studentNotesModal .inside').html('Deleting note...');
+            $('#studentNotesModal .modal-loader').removeClass('d-none');
             $('.submit-ajax-button').attr('disabled', 'disabled');
         }
 
         creatingClose = function (xhr) {
             let noteId = xhr.responseJSON.noteId;
-            $('#popup .inside').html('created note ' + noteId + ' ...');
-            $('#notesAll').html('refreshing...')
-            $('#notesAll').load(actualIndexView);
+            let noteLabel = xhr.responseJSON.noteLabel;
+
+            setTimeout(function () {
+                $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel);
+            }, 500);
+
+            setTimeout(function () {
+                $('#studentNotesModal .modal-loader').addClass('d-none');
+                $('#studentNotesModal').modal('hide');
+                refreshNotesView();
+            }, 1500);
         }
 
         creatingProcess = function (xhr) {
-            $('#popup .inside').prepend('creating note ...');
+            $('#studentNotesModal .inside').html('Saving note...');
+            $('#studentNotesModal .modal-loader').removeClass('d-none');
             $('.submit-ajax-button').attr('disabled', 'disabled');
         }
     </script>

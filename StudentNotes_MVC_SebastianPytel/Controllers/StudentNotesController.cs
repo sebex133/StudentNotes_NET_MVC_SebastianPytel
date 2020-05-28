@@ -91,7 +91,7 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 studentNote.ModifiedDate = DateTime.UtcNow;
                 _context.Add(studentNote);
                 await _context.SaveChangesAsync();
-                return Json(new { noteId = studentNote.Id });
+                return Json(new { noteId = studentNote.Id, noteLabel = studentNote.NoteLabel });
                 //return RedirectToAction(nameof(Index));
             }
             return View(studentNote);
@@ -165,7 +165,7 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 {
                     return Json(new { noteId = studentNote.Id, success = false });
                 }
-                return Json(new { noteId = id, success = true });
+                return Json(new { noteId = id, noteLabel = studentNote.NoteLabel, success = true });
                 //return RedirectToAction(nameof(Index));
             }
             return Json(new { noteId = studentNote.Id, success = false });
@@ -187,7 +187,7 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
 
             _context.StudentNote.Remove(studentNote);
             await _context.SaveChangesAsync();
-            return Json(new { noteId = id });
+            return Json(new { noteId = id, noteLabel = studentNote.NoteLabel });
             //return RedirectToAction(nameof(Index));
         }
     }

@@ -28,7 +28,8 @@
                 {
                     <div class="input-group">
                         <input asp-for="Input.Email" class="form-control" />
-                        <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-sm btn-outline-primary">Send verification email</button>
+                        @* Disabled temporary until email engine ON *@
+                        @*<button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-sm btn-outline-primary">Send verification email</button>*@
                     </div>
                 }
                 <span asp-validation-for="Input.Email" class="text-danger"></span>

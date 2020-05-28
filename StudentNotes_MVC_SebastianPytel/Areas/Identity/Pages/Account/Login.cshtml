@@ -29,11 +29,12 @@
                         <input asp-for="Input.Password" class="form-control" placeholder="@Html.DisplayNameFor(m => m.Input.Password)" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    @* Disabled temporary until email engine ON *@
+                    @*<div class="form-group">
                         <p>
                             <a asp-page="./ForgotPassword">Forgot your password?</a>
                         </p>
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         <button type="submit" class="btn btn-success">Sign in</button>
                     </div>

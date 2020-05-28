@@ -5,13 +5,13 @@
         <form asp-action="Create" data-ajax="true" data-ajax-method="post" data-ajax-complete="creatingClose" data-ajax-begin="creatingProcess">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NoteLabel" class="control-label"></label>
-                <input asp-for="NoteLabel" class="form-control" />
+                @*<label asp-for="NoteLabel" class="control-label">Note label</label>*@
+                <input asp-for="NoteLabel" class="form-control" placeholder="Note label"/>
                 <span asp-validation-for="NoteLabel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Note" class="control-label"></label>
-                <textarea asp-for="Note" id="cke-student-note" class="form-control"></textarea>
+                @*<label asp-for="Note" class="control-label"></label>*@
+                <textarea asp-for="Note" id="cke-student-note" class="form-control" placeholder="Note body"></textarea>
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
             <div class="form-group text-right">
@@ -21,11 +21,10 @@
     </div>
 </div>
 
-<script src="~/js/ckeditor5/build/ckeditor.js"></script>
+@*<script src="~/js/ckeditor5/build/ckeditor.js"></script>*@
 <script>
     ClassicEditor
         .create(document.querySelector('#cke-student-note'), {
-
             toolbar: {
                 items: [
                     'heading',
@@ -47,6 +46,9 @@
                     'redo'
                 ]
             },
+            config: {
+                minHeight: '50vh',
+            },
             language: 'en',
             image: {
                 toolbar: [
@@ -67,9 +69,6 @@
         })
         .then(editor => {
             window.editor = editor;
-
-
-
 
         })
         .catch(error => {
