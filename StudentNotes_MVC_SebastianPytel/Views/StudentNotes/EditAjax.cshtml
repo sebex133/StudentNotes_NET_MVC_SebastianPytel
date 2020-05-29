@@ -7,7 +7,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 @*<label asp-for="NoteLabel" class="control-label">Note label</label>*@
-                <input asp-for="NoteLabel" class="form-control" placeholder="Note label" />
+                <input asp-for="NoteLabel" class="form-control" placeholder="Note label" required/>
                 <span asp-validation-for="NoteLabel" class="text-danger"></span>
             </div>
             <div class="form-group">

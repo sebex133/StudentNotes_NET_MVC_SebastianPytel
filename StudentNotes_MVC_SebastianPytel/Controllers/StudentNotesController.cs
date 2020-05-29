@@ -33,6 +33,18 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
             return View(await _context.StudentNote.Where(a => a.UserId == userId).OrderByDescending(d => d.ModifiedDate).ToListAsync());
         }
         
+        public async Task<IActionResult> IndexAjaxNameAsc()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return PartialView("IndexAjax", await _context.StudentNote.Where(a => a.UserId == userId).OrderBy(d => d.NoteLabel).ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexAjaxNameDesc()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return PartialView("IndexAjax", await _context.StudentNote.Where(a => a.UserId == userId).OrderByDescending(d => d.NoteLabel).ToListAsync());
+        }
+
         public async Task<IActionResult> IndexAjaxModified()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -94,7 +106,10 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 return Json(new { noteId = studentNote.Id, noteLabel = studentNote.NoteLabel });
                 //return RedirectToAction(nameof(Index));
             }
-            return View(studentNote);
+            else
+            {
+                return Json(new { noteId = false, success = false, noteLabel = "Fill the required fields" });
+            }
         }
 
         // GET: StudentNotes/Edit/5
@@ -167,6 +182,10 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 }
                 return Json(new { noteId = id, noteLabel = studentNote.NoteLabel, success = true });
                 //return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return Json(new { noteId = studentNote.Id, success = false, noteLabel = "Fill the required fields" });
             }
             return Json(new { noteId = studentNote.Id, success = false });
             //return View(studentNote);

@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col-12 p-4">
             <div class="row text-center p-3">
-                <div class="col-12 col-md-5">
+                <div class="col-12 col-lg-5">
                     <a class="d-flex align-items-center justify-content-center text-decoration-none" data-toggle="modal" data-target="#studentNotesModal" data-modal-title="Create note" data-modal-url="/StudentNotes/CreateAjax" href="#">
                         <i class="far fa-sticky-note fa-3x text-warning pr-3"></i>
                         <span class="text-success font-weight-bold">
@@ -41,13 +41,44 @@
                         <i class="fas fa-plus-square fa-1x text-success pl-2"></i>
                     </a>
                 </div>
-                <div class="col-12 col-md-7 pt-4 pt-md-0">
-                    <div class="d-flex h-100 align-items-center justify-content-center justify-content-md-end">
-                        <div class="px-2">
-                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxCreated" href="#">Sort by created date</button>
+                <div class="col-12 col-lg-7 py-2 py-lg-0">
+                    @*<div class="row">
+                        <div class="col-12 col-lg-3">
+                            <div class="d-flex h-100 align-items-center justify-content-center justify-content-lg-end">
+                                <div class="py-2 py-lg-0">
+                                    <span class="font-weight-bold">Sort by:</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="px-2">
-                            <button class="btn btn-sm btn btn-primary px-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxModified" href="#">Sort by modified date</button>
+                        <div class="col-12 col-lg-9">
+                            <div class="d-flex h-100 align-items-center justify-content-center justify-content-lg-end">
+                                <div class="px-1">
+                                    <button class="btn btn-sm btn btn-primary px-1 px-md-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxNameAsc" data-sort-url-alternative="/StudentNotes/IndexAjaxNameDesc" href="#">Note label</button>
+                                </div>
+                                <div class="px-1">
+                                    <button class="btn btn-sm btn btn-primary px-1 px-md-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxCreated" href="#">Created date</button>
+                                </div>
+                                <div class="px-1">
+                                    <button class="btn btn-sm btn btn-primary px-1 px-md-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxModified" href="#">Modified date</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="d-flex flex-column flex-lg-row h-100 align-items-center justify-content-center justify-content-lg-end">
+                        <div class="text-center text-lg-right px-2 pb-2 pb-lg-0">
+                            <span class="font-weight-bold">Sort by:</span>
+                        </div>
+                        <div class="d-flex flex-row h-100 align-items-center justify-content-center justify-content-lg-end">
+                            <div class="px-1">
+                                <button class="btn btn-sm btn btn-primary px-1 px-md-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxNameAsc" data-sort-url-alternative="/StudentNotes/IndexAjaxNameDesc" href="#">Note label</button>
+                            </div>
+                            <div class="px-1">
+                                <button class="btn btn-sm btn btn-primary px-1 px-md-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxCreated" href="#">Created date</button>
+                            </div>
+                            <div class="px-1">
+                                <button class="btn btn-sm btn btn-primary px-1 px-md-3 ajax-index-sort" data-sort-url="/StudentNotes/IndexAjaxModified" href="#">Modified date</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,20 +185,37 @@
         editingClose = function (xhr) {
             let noteId = xhr.responseJSON.noteId;
             let noteLabel = xhr.responseJSON.noteLabel;
+            let status = xhr.responseJSON.success;
 
-            setTimeout(function () {
-                $('#studentNotesModal .modal-title').html(noteLabel);
-                $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel + ' reloading note');
-                refreshNotesView();
-            }, 500);
+            if (status) {
+                setTimeout(function () {
+                    $('#studentNotesModal .modal-title').html(noteLabel);
+                    $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel + ' reloading note');
+                    refreshNotesView();
+                }, 500);
 
-            setTimeout(function () {
-                $('#studentNotesModal .inside').load('/StudentNotes/DetailsAjax/' + noteId, function () {
+                setTimeout(function () {
+                    $('#studentNotesModal .inside').load('/StudentNotes/DetailsAjax/' + noteId, function () {
+                        $('#studentNotesModal .modal-loader').addClass('d-none');
+                    });
+
                     $('#studentNotesModal .modal-loader').addClass('d-none');
-                });
+                }, 1500);
+            } else {
+                setTimeout(function () {
+                    $('#studentNotesModal .modal-title').html(noteLabel);
+                    $('#studentNotesModal .inside').html('Error ' + noteLabel + ' - reloading note editor');
+                    refreshNotesView();
+                }, 500);
 
-                $('#studentNotesModal .modal-loader').addClass('d-none');
-            }, 1500);
+                setTimeout(function () {
+                    $('#studentNotesModal .inside').load('/StudentNotes/EditAjax/' + noteId, function () {
+                        $('#studentNotesModal .modal-loader').addClass('d-none');
+                    });
+
+                    $('#studentNotesModal .modal-loader').addClass('d-none');
+                }, 1500);
+            }
         }
 
         editingProcess = function (xhr) {
@@ -200,16 +248,33 @@
         creatingClose = function (xhr) {
             let noteId = xhr.responseJSON.noteId;
             let noteLabel = xhr.responseJSON.noteLabel;
+            let status = xhr.responseJSON.success;
 
-            setTimeout(function () {
-                $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel);
-            }, 500);
+            if (status) {
+                setTimeout(function () {
+                    $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel);
+                }, 500);
 
-            setTimeout(function () {
-                $('#studentNotesModal .modal-loader').addClass('d-none');
-                $('#studentNotesModal').modal('hide');
-                refreshNotesView();
-            }, 1500);
+                setTimeout(function () {
+                    $('#studentNotesModal .modal-loader').addClass('d-none');
+                    $('#studentNotesModal').modal('hide');
+                    refreshNotesView();
+                }, 1500);
+            }
+            else
+            {
+                setTimeout(function () {
+                    $('#studentNotesModal .inside').html('Error - ' + noteLabel);
+                }, 500);
+                
+                setTimeout(function () {
+                    $('#studentNotesModal .inside').load('/StudentNotes/CreateAjax', function () {
+                        $('#studentNotesModal .modal-loader').addclass('d-none');
+                    });
+
+                    $('#studentNotesModal .modal-loader').addClass('d-none');
+                }, 1500);
+            }
         }
 
         creatingProcess = function (xhr) {
