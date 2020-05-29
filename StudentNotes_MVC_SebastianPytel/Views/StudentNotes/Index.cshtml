@@ -136,7 +136,7 @@
                 $('#notesAll').load(actualIndexView, function () {
                     $('#notesAllLoader').addClass('d-none');
                 });
-            }, 1000)
+            }, 300)
         }
 
         $(document).on('click', '.ajax-index-sort', function () {
@@ -165,7 +165,7 @@
                 $('#studentNotesModal .inside').load(loadUrl, function () {
                     $('#studentNotesModal .modal-loader').addClass('d-none');
                 });
-            }, 1000);
+            }, 300);
         });
 
         $(document).on('click', '.ajax-edit', function () {
@@ -178,7 +178,7 @@
                 $('#studentNotesModal .inside').load('/StudentNotes/EditAjax/' + noteId, function () {
                     $('#studentNotesModal .modal-loader').addClass('d-none');
                 });
-            }, 1000);
+            }, 300);
         });
 
         //dynamic forms
@@ -188,33 +188,27 @@
             let status = xhr.responseJSON.success;
 
             if (status) {
-                setTimeout(function () {
-                    $('#studentNotesModal .modal-title').html(noteLabel);
-                    $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel + ' reloading note');
-                    refreshNotesView();
-                }, 500);
+                $('#studentNotesModal .modal-title').html(noteLabel);
+                $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel + ' reloading note');
+                refreshNotesView();
 
                 setTimeout(function () {
-                    $('#studentNotesModal .inside').load('/StudentNotes/DetailsAjax/' + noteId, function () {
-                        $('#studentNotesModal .modal-loader').addClass('d-none');
-                    });
-
                     $('#studentNotesModal .modal-loader').addClass('d-none');
-                }, 1500);
-            } else {
-                setTimeout(function () {
-                    $('#studentNotesModal .modal-title').html(noteLabel);
-                    $('#studentNotesModal .inside').html('Error ' + noteLabel + ' - reloading note editor');
+                    $('#studentNotesModal').modal('hide');
                     refreshNotesView();
-                }, 500);
+                }, 1000);
+            } else {
+                $('#studentNotesModal .modal-title').html(noteLabel);
+                $('#studentNotesModal .inside').html('Error ' + noteLabel + ' - reloading note editor');
+                refreshNotesView();
 
                 setTimeout(function () {
+                    //Reload edited note
                     $('#studentNotesModal .inside').load('/StudentNotes/EditAjax/' + noteId, function () {
                         $('#studentNotesModal .modal-loader').addClass('d-none');
                     });
-
                     $('#studentNotesModal .modal-loader').addClass('d-none');
-                }, 1500);
+                }, 1000);
             }
         }
 
@@ -228,15 +222,13 @@
             let noteId = xhr.responseJSON.noteId;
             let noteLabel = xhr.responseJSON.noteLabel;
 
-            setTimeout(function () {
-                $('#studentNotesModal .inside').html('Deleted successfully note ' + noteLabel);
-            }, 500);
+            $('#studentNotesModal .inside').html('Deleted successfully note ' + noteLabel);
 
             setTimeout(function () {
                 $('#studentNotesModal .modal-loader').addClass('d-none');
                 $('#studentNotesModal').modal('hide');
                 refreshNotesView();
-            }, 1500);
+            }, 1000);
         }
 
         deletingProcess = function (xhr) {
@@ -251,21 +243,17 @@
             let status = xhr.responseJSON.success;
 
             if (status) {
-                setTimeout(function () {
-                    $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel);
-                }, 500);
+                $('#studentNotesModal .inside').html('Saved successfully note ' + noteLabel);
 
                 setTimeout(function () {
                     $('#studentNotesModal .modal-loader').addClass('d-none');
                     $('#studentNotesModal').modal('hide');
                     refreshNotesView();
-                }, 1500);
+                }, 1000);
             }
             else
             {
-                setTimeout(function () {
-                    $('#studentNotesModal .inside').html('Error - ' + noteLabel);
-                }, 500);
+                $('#studentNotesModal .inside').html('Error - ' + noteLabel);
                 
                 setTimeout(function () {
                     $('#studentNotesModal .inside').load('/StudentNotes/CreateAjax', function () {
@@ -273,7 +261,7 @@
                     });
 
                     $('#studentNotesModal .modal-loader').addClass('d-none');
-                }, 1500);
+                }, 1000);
             }
         }
 

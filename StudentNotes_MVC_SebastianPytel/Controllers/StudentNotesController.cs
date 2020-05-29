@@ -103,7 +103,7 @@ namespace StudentNotes_MVC_SebastianPytel.Controllers
                 studentNote.ModifiedDate = DateTime.UtcNow;
                 _context.Add(studentNote);
                 await _context.SaveChangesAsync();
-                return Json(new { noteId = studentNote.Id, noteLabel = studentNote.NoteLabel });
+                return Json(new { noteId = studentNote.Id, success = true, noteLabel = studentNote.NoteLabel });
                 //return RedirectToAction(nameof(Index));
             }
             else
